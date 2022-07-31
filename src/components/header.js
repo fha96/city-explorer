@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "./nav";
+
 
 
 class Header extends React.Component{
@@ -10,7 +10,7 @@ class Header extends React.Component{
         return(
             <>
             <h1> Welcome to our first API project</h1>
-            {/* <Navigation/> */}
+           
             </>
         )
     }
