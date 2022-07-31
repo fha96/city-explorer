@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
 import NiceView from "./niceView";
+import MapImage from "./mapImage";
 
 class Main extends React.Component {
 
@@ -14,6 +15,7 @@ class Main extends React.Component {
             locationName:'',
             longitude:'',
             latitude:''
+          
         }
     }
 
@@ -47,13 +49,17 @@ class Main extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group className="mb-3" >
                             <Form.Label htmlFor="disabledTextInput">Please Enter the City</Form.Label><br />
-                            <Form.Control id="disabledTextInput" placeholder="City..." onChange={this.updateQuery}/>
+                            <Form.Control id="disabledTextInput" placeholder="City..." onChange={this.updateQuery} />
+                            <br/>
                         <Button type="submit">Explore!</Button>
                         </Form.Group>
                         </Form>     
 
                         <NiceView cityName={this.state.locationName} lon={this.state.longitude} lat={this.state.latitude}/>  
-            </>
+                        
+                        <MapImage src={`https://maps.locationiq.com/v3/staticmap?key=pk.c0a08c961ed12e8da859156883246e68&center=${this.state.latitude},${this.state.longitude}`} name={this.state.locationName}/>
+                       
+                        </>
         )
     }
 }

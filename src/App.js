@@ -2,7 +2,8 @@ import Main from './components/main';
 import Header from './components/header';
 import './App.css';
 import React from 'react';
-
+import Footer from './components/footer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends React.Component {
@@ -11,6 +12,7 @@ class App extends React.Component {
     <div className="App">
         <Header />
         <Main />
+        <Footer/>
     </div>
   );
 }

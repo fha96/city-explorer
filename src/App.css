@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background:#F2F2F2;
 }
 
 .App-logo {
@@ -39,4 +40,9 @@
 
 #tableContent{  
 width: 900px;
+margin-left: 300px;
+}
+#disabledTextInput{
+  width: 400px; 
+  margin-left: 570px;
 }
