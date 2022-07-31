@@ -8,7 +8,7 @@
 3. Render the data.
 
 
-## functions support data flow 
+## Functions support data flow 
 1. async and await.
 2. sending request using axios.
 3. render it by using any events methods.
