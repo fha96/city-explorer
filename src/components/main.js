@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import axios from "axios";
 import NiceView from "./niceView";
 import MapImage from "./mapImage";
+import Weather from "./Weather";
 import Error from "./error";
 
 class Main extends React.Component {
@@ -16,6 +17,10 @@ class Main extends React.Component {
             locationName:'',
             longitude:'',
             latitude:'',
+            showInfo:false,
+            weather:[],
+            showWeather:false,
+            errorMsg:'',
             showError: false
         }
     }
@@ -31,28 +36,50 @@ class Main extends React.Component {
 
     handleSubmit = async(e) =>{
         e.preventDefault();
-        console.log('test');
-        if(this.state.query){
         let Location=`https://eu1.locationiq.com/v1/search?key=pk.c0a08c961ed12e8da859156883246e68&q=${this.state.query}&format=json`;
+        try{
         let dataLocation= await axios.get(Location);
-        
-        
         this.setState({
             locationName:dataLocation.data[0].display_name,
             longitude:dataLocation.data[0].lon,
             latitude:dataLocation.data[0].lat,
-        })
-    }else {
-        console.log("error");
+            showInfo:true
+        });
+        this.displayWeather(this.state.query);
+        
+    }catch(error){
+        console.log(error);
         this.setState({
-
-            showError: true
-        })
+            showInfo:false,
+            showError:true,
+            errorMsg: error.response.status + " : "+ error.response.data.error
+        });
+        console.log(error);
     }
+}
+    
+
+        displayWeather= async (cityName)=>{
+            let url=`${process.env.REACT_APP_FHAD_EXPRESS}/weather?cityName=${cityName}`;
+        try{
+        let weatherData=await axios.get(url);
+        this.setState({
+            showWeather:true,
+            weather:weatherData.data,
+            showError:false
+        });}
+        catch(error)
+        {
+            console.log(error);
+            this.setState({
+                showError:true,
+                errorMsg: error.response.status + " : "+ error.response.data.error,
+                showWeather:false
+                
+            })
+        
     }
-   
-
-
+}
 
     render() {
         return (
@@ -67,10 +94,23 @@ class Main extends React.Component {
                         </Form.Group>
                         </Form>     
 
+                        {
+                        this.state.showInfo &&
+                        <>
                         <NiceView cityName={this.state.locationName} lon={this.state.longitude} lat={this.state.latitude}/>  
-                        
                         <MapImage src={`https://maps.locationiq.com/v3/staticmap?key=pk.c0a08c961ed12e8da859156883246e68&center=${this.state.latitude},${this.state.longitude}`} name={this.state.locationName}/>
-                       <Error show={this.state.showError} />
+                        </>
+                        }
+                        {
+                            this.state.showError &&
+                            <>
+                            <Error error={this.state.errorMsg}/>
+                            </>
+                        }
+                        { 
+                        this.state.showWeather & this.state.showInfo &&
+                        <Weather weatherInformation={this.state.weather}/>
+                        }
                         </>
         )
     }
