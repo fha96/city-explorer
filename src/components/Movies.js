@@ -1,4 +1,5 @@
 import React from "react";
+import Movie from "./Movie";
 
 
 
@@ -7,22 +8,25 @@ export default class Movies extends React.Component{
 
 
     render(){
+        
         return(
-            this.props.moviesData.map(item=>{
+            <>
+
+            <h3>All movies which is related to your city-Name</h3>
+            {this.props.moviesData.map(item=>{
                 return(
                     <>
-                    
-                                <p>Title: {item.title}</p>
-                                <p>Release Date :{item.released_on}</p>
-                                <p>Popularity : {item.popularity}</p>
-                                <p>Image URL : {item.image_url}</p>
+                    <Movie dataMovie={item} />
                     </>
-                ) 
-            })
+             
+             ) 
+            
+            })}
             
             
-        
+            </>
         )
+        
     }
 
 
